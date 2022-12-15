@@ -4,13 +4,13 @@ const parser = (data) => {
   const domParser = new DOMParser();
   const rss = domParser.parseFromString(data.contents, "application/xml");
   const nodeList = rss.querySelectorAll('item');
-  const feedNode = rss.querySelector('channel').childNodes;
-  const feed = { title: feedNode[1].textContent, descripton: feedNode[3].textContent };
-  const items = Array.from(nodeList).map((el) => {
-    const node = el.childNodes;
-    const title = node[1].textContent;
-    const link = node[3].textContent;
-    const descripton = node[5].textContent;
+  const feedTitle = rss.querySelector('channel > title').textContent;
+  const feedDescription = rss.querySelector('channel > description').textContent;
+  const feed = { title: feedTitle, descripton: feedDescription };
+  const items = Array.from(nodeList).map((node) => {
+    const title = node.querySelector('title').textContent;
+    const link = node.querySelector('link').textContent
+    const descripton = node.querySelector('description').textContent;
     return { title, link, descripton, id: uniqueId() };
   });
   return [items, feed];

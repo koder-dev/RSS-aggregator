@@ -15,7 +15,9 @@ const makeEl = (item) => {
   btn.textContent = 'Просмотр';
   a.textContent = item.title;
   a.href = item.link;
-  
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+
   li.append(a);
   li.append(btn);
   

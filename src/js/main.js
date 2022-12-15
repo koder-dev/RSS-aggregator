@@ -1,10 +1,12 @@
 import '../scss/styles.scss';
+import { Modal } from 'bootstrap';
 import { object, string } from 'yup';
 import axios from 'axios';
 import i18next from 'i18next';
 import ru from './languages/ru.js';
 import watchedStateInit from './watchedState.js';
 import parser from './utils/DOMparser.js'
+import followRss from './followRss';
 
 const runApp = () => {
   const i18instance = i18next.createInstance();
@@ -14,31 +16,34 @@ const runApp = () => {
   });
 
   const state = {
+    items: [],
+    feeds: [],
+    modal: null,
     ui: {
       validationUrl: 'valid',
       isLoading: 'no',
       responseStatus: null,
-      items: [],
-      feeds: [],
-      modal: 'hidden',
+      itemsStatus: [],
     }
   }
 
   const watchedState = watchedStateInit(state, i18instance);
   const formRss = document.querySelector('.rss-form');
-  const btnModalShow = document.querySelectorAll('btn-outline-primary');
+  const myModal = document.getElementById('modal');
 
   const scheme = object({
     url: string().url().required(),
   });
+  
+  myModal.addEventListener('show.bs.modal', (e) => {
+    const { items, ui } = watchedState;
+    const itemId = e.relatedTarget.dataset.id;
+    const itemData = items.find((item) => item.id === itemId);
+    watchedState.modal = itemData;
+    watchedState.ui.itemsStatus = [...ui.itemsStatus, { itemId, status: 'opened' }];
+  })
 
-  btnModalShow.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const modal = document.querySelector('#modal');
-      modal.classList.add('show');
-    })
-  });
+  const addedUrls = [];
 
   formRss.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -49,20 +54,30 @@ const runApp = () => {
 
     scheme.validate({ url })
       .then(() => {
-        watchedState.ui.validationUrl = 'valid';
-        return axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`)})
+        if (addedUrls.includes(url)) throw new Error('Already added Url!');
+          addedUrls.push(url);
+          watchedState.ui.validationUrl = 'valid';
+          return axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`);
+        })
       .then(({ data }) => {
         watchedState.ui.responseStatus = 'complete';
         const [items, feed] = parser(data);
-        watchedState.ui.feeds = [...watchedState.ui.feeds, feed];
-        watchedState.ui.items = [...watchedState.ui.items, ...items];
+        watchedState.feeds = [...watchedState.feeds, feed];
+        watchedState.items = [...watchedState.items, ...items];
+        setTimeout(() => {
+          followRss(url, watchedState);
+        }, 5000);
       })
       .catch((e) => {
-        console.error(e);
-        if (e === 'Network error') {
-          watchedState.responseStatus = 'error';
-        } else {
-          watchedState.ui.validationUrl = 'invalid'
+        switch (e.message) {
+          case 'Already added Url!':
+            watchedState.ui.validationUrl = 'alreadyAddedUrl';
+            break;
+          case 'Network Error':
+            watchedState.ui.responseStatus = 'error';
+            break;
+          default:
+            watchedState.ui.validationUrl = 'invalid';
         }})
       .finally(() => watchedState.ui.isLoading = 'no');
   });

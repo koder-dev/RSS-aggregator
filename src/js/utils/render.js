@@ -28,7 +28,7 @@ export const renderItems = (items) => {
 };
 
 export const renderLoading = (isLoading) => {
-  const btn = document.querySelector('.btn');
+  const btn = document.querySelector('#btn-submit');
   if (isLoading === 'yes') {
     btn.setAttribute('disabled', true);
   } else {
@@ -40,15 +40,16 @@ export const renderUrl = (validationUrl, i18instance) => {
   const inputUrl = document.querySelector('#url-input');
   const pText = document.querySelector('.feedback');
 
-  if (validationUrl === 'invalid') {
+  if (validationUrl === 'invalid' || validationUrl === 'alreadyAddedUrl') {
     inputUrl.classList.add('is-invalid');
     pText.classList.remove('text-success');
     pText.classList.add('text-danger');
-    pText.textContent = i18instance.t('invalidFeedback');
+    if (validationUrl === 'invalid') pText.textContent = i18instance.t('invalidFeedback');
+    if (validationUrl === 'alreadyAddedUrl') pText.textContent = i18instance.t('alreadyAdded');
   } else if (validationUrl === 'valid') {
     inputUrl.classList.remove('is-invalid');
     pText.textContent = '';
-  };
+  }
 };
 
 export const renderResponseStatus = (responseStatus, i18instance) => {
@@ -109,4 +110,23 @@ export const renderFeeds = (feeds) => {
   });
 
   ul.replaceWith(newUl);
+};
+
+export const renderModal = (item) => {
+  const modalTitle = document.querySelector('.modal-title');
+  const modalBody = document.querySelector('.modal-body');
+  const link = document.querySelector('.modal-footer > a');
+  modalTitle.textContent = item.title;
+  modalBody.textContent = item.descripton;
+  link.href = item.link;
+};
+
+export const renderOpenedItems = (items) => {
+  items.forEach((item) => {
+    const { itemId } = item;
+    console.log(item)
+    const itemEl = document.querySelector(`a[data-id="${itemId}"]`);
+    itemEl.classList.remove('fw-bold');
+    itemEl.classList.add('fw-normal', 'link-secondary');
+  })
 };

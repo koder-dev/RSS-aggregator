@@ -1,14 +1,13 @@
 import onChange from 'on-change';
-import { renderItems, renderLoading, renderResponseStatus, renderUrl, renderFeeds } from './utils/render';
+import { renderItems, renderLoading, renderResponseStatus, renderUrl, renderFeeds, renderModal, renderOpenedItems } from './utils/render';
 
 const watchedStateInit = (state, i18instance) => {
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
-      case 'ui.items':
+      case 'items':
         renderItems(value);
         break;
-      case 'ui.feeds':
-        console.log(value)
+      case 'feeds':
         renderFeeds(value);
         break;
       case 'ui.isLoading':
@@ -19,6 +18,12 @@ const watchedStateInit = (state, i18instance) => {
         break;
       case 'ui.responseStatus':
         renderResponseStatus(value, i18instance);
+        break;
+      case 'modal':
+        renderModal(value);
+        break;
+      case 'ui.itemsStatus':
+        renderOpenedItems(value);
         break;
       default:
         throw new Error('unknown state path!');
