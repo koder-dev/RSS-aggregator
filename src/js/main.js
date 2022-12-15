@@ -5,14 +5,14 @@ import axios from 'axios';
 import i18next from 'i18next';
 import ru from './languages/ru.js';
 import watchedStateInit from './watchedState.js';
-import parser from './utils/DOMparser.js'
+import parser from './utils/DOMparser.js';
 import followRss from './followRss';
 
 const runApp = () => {
   const i18instance = i18next.createInstance();
   i18instance.init({
     lng: 'ru',
-    resources: { ru }
+    resources: { ru },
   });
 
   const state = {
@@ -24,8 +24,8 @@ const runApp = () => {
       isLoading: 'no',
       responseStatus: null,
       itemsStatus: [],
-    }
-  }
+    },
+  };
 
   const watchedState = watchedStateInit(state, i18instance);
   const formRss = document.querySelector('.rss-form');
@@ -34,14 +34,14 @@ const runApp = () => {
   const scheme = object({
     url: string().url().required(),
   });
-  
+
   myModal.addEventListener('show.bs.modal', (e) => {
     const { items, ui } = watchedState;
     const itemId = e.relatedTarget.dataset.id;
     const itemData = items.find((item) => item.id === itemId);
     watchedState.modal = itemData;
     watchedState.ui.itemsStatus = [...ui.itemsStatus, { itemId, status: 'opened' }];
-  })
+  });
 
   const addedUrls = [];
 
@@ -55,10 +55,10 @@ const runApp = () => {
     scheme.validate({ url })
       .then(() => {
         if (addedUrls.includes(url)) throw new Error('Already added Url!');
-          addedUrls.push(url);
-          watchedState.ui.validationUrl = 'valid';
-          return axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`);
-        })
+        addedUrls.push(url);
+        watchedState.ui.validationUrl = 'valid';
+        return axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`);
+      })
       .then(({ data }) => {
         watchedState.ui.responseStatus = 'complete';
         const [items, feed] = parser(data);
@@ -68,8 +68,8 @@ const runApp = () => {
           followRss(url, watchedState);
         }, 5000);
       })
-      .catch((e) => {
-        switch (e.message) {
+      .catch((err) => {
+        switch (err.message) {
           case 'Already added Url!':
             watchedState.ui.validationUrl = 'alreadyAddedUrl';
             break;
@@ -78,10 +78,10 @@ const runApp = () => {
             break;
           default:
             watchedState.ui.validationUrl = 'invalid';
-        }})
+        };
+      })
       .finally(() => watchedState.ui.isLoading = 'no');
   });
 };
 
 runApp();
-  

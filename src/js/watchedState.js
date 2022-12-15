@@ -1,5 +1,8 @@
 import onChange from 'on-change';
-import { renderItems, renderLoading, renderResponseStatus, renderUrl, renderFeeds, renderModal, renderOpenedItems } from './utils/render';
+import {
+  renderItems, renderLoading, renderResponseStatus, renderUrl,
+  renderFeeds, renderModal, renderOpenedItems,
+} from './utils/render.js';
 
 const watchedStateInit = (state, i18instance) => {
   const watchedState = onChange(state, (path, value) => {
@@ -27,9 +30,9 @@ const watchedStateInit = (state, i18instance) => {
         break;
       default:
         throw new Error('unknown state path!');
-      };
-    });
-    return watchedState;
-  };
-    
-  export default watchedStateInit;
+    }
+  });
+  return watchedState;
+};
+
+export default watchedStateInit;

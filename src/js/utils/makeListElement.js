@@ -10,7 +10,7 @@ const makeEl = (item) => {
   btn.dataset.bsToggle = 'modal';
   btn.dataset.bsTarget = '#modal';
   a.dataset.id = item.id;
-  
+
   btn.type = 'button';
   btn.textContent = 'Просмотр';
   a.textContent = item.title;
@@ -20,7 +20,7 @@ const makeEl = (item) => {
 
   li.append(a);
   li.append(btn);
-  
+
   return li;
 };
 

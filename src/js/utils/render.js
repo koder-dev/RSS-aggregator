@@ -1,4 +1,4 @@
-import makeListEl from "./makeListElement";
+import makeListEl from './makeListElement';
 
 export const renderItems = (items) => {
   const postsDiv = document.querySelector('.posts');
@@ -23,7 +23,7 @@ export const renderItems = (items) => {
     const li = makeListEl(item);
     newUl.append(li);
   });
-  
+
   ul.replaceWith(newUl);
 };
 
@@ -72,8 +72,8 @@ export const renderResponseStatus = (responseStatus, i18instance) => {
 export const renderFeeds = (feeds) => {
   const feedDiv = document.querySelector('.feeds');
   let ul = feedDiv.querySelector('.list-group');
-  
-  if(!ul) {
+
+  if (!ul) {
     const divCard = document.createElement('div');
     const divCardBody = document.createElement('div');
     const cardTitle = document.createElement('h2');
@@ -83,7 +83,7 @@ export const renderFeeds = (feeds) => {
     cardTitle.classList.add('card-title', 'h4');
     ul.classList.add('list-group', 'border-0', 'rounded-0');
     cardTitle.textContent = 'Фиды';
-    
+
     divCardBody.append(cardTitle);
     divCardBody.append(ul);
     divCard.append(divCardBody);
@@ -100,7 +100,7 @@ export const renderFeeds = (feeds) => {
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
     title.classList.add('h6', 'm-0');
     descripton.classList.add('m-0', 'small', 'text-black-50');
-    
+
     title.textContent = feed.title;
     descripton.textContent = feed.descripton;
 
@@ -124,9 +124,9 @@ export const renderModal = (item) => {
 export const renderOpenedItems = (items) => {
   items.forEach((item) => {
     const { itemId } = item;
-    console.log(item)
+    console.log(item);
     const itemEl = document.querySelector(`a[data-id="${itemId}"]`);
     itemEl.classList.remove('fw-bold');
     itemEl.classList.add('fw-normal', 'link-secondary');
-  })
+  });
 };
