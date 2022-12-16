@@ -4,6 +4,7 @@ const ru = {
     validFeedback: 'RSS успешно загружен',
     networkError: 'Ошибка сети',
     alreadyAdded: 'RSS уже существует',
+    watch: 'Просмотр',
   },
 };
 

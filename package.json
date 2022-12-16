@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "RSS aggregator",
-  "main": "src/js/main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --define-process-env-node-env=production",
@@ -26,11 +26,13 @@
   },
   "homepage": "https://github.com/koder-dev/frontend-project-11#readme",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
     "@webpack-cli/generators": "^3.0.0",
     "autoprefixer": "^10.4.13",
     "css-loader": "^6.7.2",
     "eslint": "^8.29.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-jest": "^27.1.6",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^29.3.1",

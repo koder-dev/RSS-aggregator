@@ -20,7 +20,7 @@ export const renderItems = (items) => {
   newUl.classList.add('list-group', 'border-0', 'rounded-0');
 
   items.forEach((item) => {
-    const li = makeListEl(item);
+    const li = makeListEl(item, i18instance);
     newUl.append(li);
   });
 

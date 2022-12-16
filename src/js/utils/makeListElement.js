@@ -1,4 +1,4 @@
-const makeEl = (item) => {
+const makeEl = (item, i18instance) => {
   const li = document.createElement('li');
   const btn = document.createElement('button');
   const a = document.createElement('a');
@@ -12,7 +12,7 @@ const makeEl = (item) => {
   a.dataset.id = item.id;
 
   btn.type = 'button';
-  btn.textContent = 'Просмотр';
+  btn.textContent = i18instance.t('watch');
   a.textContent = item.title;
   a.href = item.link;
   a.target = '_blank';
