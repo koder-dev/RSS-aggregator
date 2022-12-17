@@ -53,11 +53,11 @@ const runApp = () => {
     scheme.validate({ url })
       .then(() => {
         if (addedUrls.includes(url)) throw new Error('Already added Url!');
-        addedUrls.push(url);
         watchedState.ui.validationUrl = 'valid';
         return axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`);
       })
       .then(({ data }) => {
+        addedUrls.push(url);
         watchedState.ui.responseStatus = 'complete';
         const [items, feed] = parser(data);
         watchedState.feeds = [...watchedState.feeds, feed];
