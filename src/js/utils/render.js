@@ -1,6 +1,6 @@
 import makeListEl from './makeListElement';
 
-export const renderItems = (items) => {
+export const renderItems = (items, i18instance) => {
   const postsDiv = document.querySelector('.posts');
   let ul = postsDiv.querySelector('.list-group');
   if (!ul) {
