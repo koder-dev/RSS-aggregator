@@ -66,7 +66,7 @@ export const renderResponseStatus = (responseStatus, i18instance) => {
     pText.classList.remove('text-success');
     pText.classList.add('text-danger');
     if (responseStatus === 'networkError') pText.textContent = i18instance.t('networkError');
-    if (responseStatus === 'invalidRss')  pText.textContent = i18instance.t('invalidRss');
+    if (responseStatus === 'invalidRss') pText.textContent = i18instance.t('invalidRss');
   }
 };
 

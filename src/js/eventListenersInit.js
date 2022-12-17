@@ -27,7 +27,7 @@ const handleFormListener = (watchedState, addedUrls) => (e) => {
         watchedState.feeds = [...watchedState.feeds, feed];
         watchedState.items = [...watchedState.items, ...items];
       } catch (err) {
-        throw new Error('Invalid RSS link')
+        throw new Error('Invalid RSS link');
       }
       setTimeout(() => {
         followRss(url, watchedState);
@@ -47,7 +47,7 @@ const handleFormListener = (watchedState, addedUrls) => (e) => {
           break;
         default:
           watchedState.ui.validationUrl = 'invalid';
-      };
+      }
     })
     .finally(() => watchedState.ui.isLoading = 'no');
 };
