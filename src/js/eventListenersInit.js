@@ -22,23 +22,28 @@ const handleFormListener = (watchedState, addedUrls) => (e) => {
     })
     .then(({ data }) => {
       addedUrls.push(url);
-      watchedState.ui.responseStatus = 'complete';
-      const [items, feed] = parser(data);
-      console.log(items)
-      watchedState.feeds = [...watchedState.feeds, feed];
-      watchedState.items = [...watchedState.items, ...items];
+      try {
+        const [items, feed] = parser(data);
+        watchedState.feeds = [...watchedState.feeds, feed];
+        watchedState.items = [...watchedState.items, ...items];
+      } catch (err) {
+        throw new Error('Invalid RSS link')
+      }
       setTimeout(() => {
         followRss(url, watchedState);
       }, 5000);
+      watchedState.ui.responseStatus = 'complete';
     })
     .catch((err) => {
-      console.log(err.message)
       switch (err.message) {
         case 'Already added Url!':
           watchedState.ui.validationUrl = 'alreadyAddedUrl';
           break;
         case 'Network Error':
-          watchedState.ui.responseStatus = 'error';
+          watchedState.ui.responseStatus = 'networkError';
+          break;
+        case 'Invalid RSS link':
+          watchedState.ui.responseStatus = 'invalidRss';
           break;
         default:
           watchedState.ui.validationUrl = 'invalid';

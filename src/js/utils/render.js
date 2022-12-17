@@ -62,10 +62,11 @@ export const renderResponseStatus = (responseStatus, i18instance) => {
     pText.textContent = i18instance.t('validFeedback');
     input.value = '';
     input.focus();
-  } else if (responseStatus === 'error') {
+  } else {
     pText.classList.remove('text-success');
     pText.classList.add('text-danger');
-    pText.textContent = i18instance.t('networkError');
+    if (responseStatus === 'networkError') pText.textContent = i18instance.t('networkError');
+    if (responseStatus === 'invalidRss')  pText.textContent = i18instance.t('invalidRss');
   }
 };
 

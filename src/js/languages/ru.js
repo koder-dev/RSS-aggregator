@@ -5,6 +5,7 @@ const ru = {
     networkError: 'Ошибка сети',
     alreadyAdded: 'RSS уже существует',
     watch: 'Просмотр',
+    invalidRss: 'Ресурс не содержит валидный RSS',
   },
 };
 
