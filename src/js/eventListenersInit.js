@@ -49,7 +49,9 @@ const handleFormListener = (watchedState, addedUrls) => (e) => {
           watchedState.ui.validationUrl = 'invalid';
       }
     })
-    .finally(() => watchedState.ui.isLoading = 'no');
+    .finally(() => {
+      watchedState.ui.isLoading = 'no';
+    });
 };
 
 export default handleFormListener;
